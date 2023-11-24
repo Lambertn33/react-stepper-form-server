@@ -1,8 +1,10 @@
 import { Router } from "express";
 
-import { POST } from "../controllers/users.controllers";
+import { GET, POST } from "../controllers/users.controllers";
 
 const router = Router();
+
+router.get("/", GET);
 
 router.post("/", POST);
 
