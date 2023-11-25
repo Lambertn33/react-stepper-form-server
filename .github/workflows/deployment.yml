@@ -20,6 +20,7 @@ jobs:
             dist
             package.json
             package-lock.json
+            prisma
   deploy:
     runs-on: self-hosted
     needs: build_and_installation
