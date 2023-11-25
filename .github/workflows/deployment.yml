@@ -20,12 +20,14 @@ jobs:
           name: dist-files
           path: dist
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: build_and_installation
     steps:
+      - name: install node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: download the artifacts
         uses: actions/download-artifact@v3
         with:
           name: dist-files
-      - name: deploy and start the server
-        run: echo "ready to deploy"
