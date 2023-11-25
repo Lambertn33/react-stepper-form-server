@@ -5,8 +5,6 @@ on:
 jobs:
   build_and_installation:
     runs-on: ubuntu-latest
-    env:
-      DATABASE_URL: ${{secrets.DATABASE_URL}}
     steps:
       - name: get the codes
         uses: actions/checkout@v4
@@ -18,7 +16,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: dist
+          path: |
+            dist
+            package.json
+            package-lock.json
   deploy:
     runs-on: self-hosted
     needs: build_and_installation
@@ -26,10 +27,14 @@ jobs:
       - name: install node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - name: download the artifacts
         uses: actions/download-artifact@v3
         with:
           name: dist-files
+      - name: create .env
+        run: |
+          touch .env
+          echo "DATABASE_URL=${{secrets.DATABASE_URL}}" > .env
       - name: restart pm2
         run: pm2 restart app
