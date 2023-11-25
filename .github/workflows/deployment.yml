@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: get the codes
         uses: actions/checkout@v4
+      - name: install dependencies
+        run: npm install
       - name: build the project
         run: tsc --build
       - name: produce the artifacts
